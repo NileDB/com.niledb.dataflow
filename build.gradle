@@ -1,0 +1,30 @@
+buildscript {
+    repositories {
+        maven {
+            url 'http://dl.bintray.com/sponiro/gradle-plugins'
+        }
+    }
+    dependencies {
+        classpath 'de.fanero.gradle.plugin.nar:gradle-nar-plugin:0.3'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'de.fanero.gradle.plugin.nar'
+
+def nifiVersion = '1.5.0'
+
+repositories {
+	jcenter()
+}
+
+dependencies {
+	compile "org.apache.nifi:nifi-processor-utils:$nifiVersion"
+	
+	testCompile "org.apache.nifi:nifi-mock:$nifiVersion"
+    testCompile "junit:junit:4.12"
+}
+
+group = 'com.niledb.nifi'
+version = '0.8.0'
