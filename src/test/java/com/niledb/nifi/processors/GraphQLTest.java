@@ -39,14 +39,15 @@ public class GraphQLTest {
 		// Add ControllerServices
 		
 		// Add properties (configure processor)
-		runner.setProperty(GraphQL.QUERY, "mutation customersCreate($email: String! $firstName: String! $lastName: String!) {customersCreate(entity: {email: $email firstName: $firstName lastName: $lastName}) {id}}");
+		runner.setProperty(GraphQL.ENDPOINT, "http://localhost:8080/graphql");
+		runner.setProperty(GraphQL.QUERY, "query {addressList {addressLine1}}");
+		runner.setProperty(GraphQL.ATTRIBUTE_NAMES, "authorization,guay");
+		runner.setProperty(GraphQL.RESPONSE_TARGET_ATTRIBUTE_NAME, "result");
 		
 		// Enqueue FlowFiles
-		HashMap<String, String> properties = new HashMap<String, String>();
-		properties.put("email", "paco@hernandezgomez.com");
-		properties.put("firstName", "Paco");
-		properties.put("lastName", "Hernández");
-		runner.enqueue("{}", properties);
+		HashMap<String, String> attributes = new HashMap<String, String>();
+		attributes.put("authorization", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InBvc3RncmVzIn0.NueDcaT-wX6DuO1t_91-UeqX-xXZoHpXXkC1VGG_TlU");
+		runner.enqueue("{}", attributes);
 		
 		// Run the Processor
 		runner.run();
@@ -59,6 +60,6 @@ public class GraphQLTest {
 		
 		MockFlowFile result = results.get(0);
 		assertTrue(result.isContentEqual("{}"));
-		assertEquals(result.getAttribute("response"), "TO-DO");
+		assertEquals(result.getAttribute("result"), "{\"data\":{\"addressList\":[{\"addressLine1\":\"Calle Montmartre, 123\"}]}}");
 	}
 }

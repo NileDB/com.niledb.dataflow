@@ -14,12 +14,14 @@ apply plugin: 'eclipse'
 apply plugin: 'de.fanero.gradle.plugin.nar'
 
 def nifiVersion = '1.5.0'
+def vertxVersion = '3.5.1'
 
 repositories {
 	jcenter()
 }
 
 dependencies {
+	compile "io.vertx:vertx-core:$vertxVersion"
 	compile "org.apache.nifi:nifi-processor-utils:$nifiVersion"
 	
 	testCompile "org.apache.nifi:nifi-mock:$nifiVersion"

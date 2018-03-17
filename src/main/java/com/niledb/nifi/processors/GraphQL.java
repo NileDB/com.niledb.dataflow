@@ -15,11 +15,17 @@
  */
 package com.niledb.nifi.processors;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.flowfile.FlowFile;
@@ -33,6 +39,11 @@ import org.apache.nifi.annotation.documentation.CapabilityDescription;
 import org.apache.nifi.annotation.documentation.Tags;
 import org.apache.nifi.processor.exception.ProcessException;
 import org.apache.nifi.processor.util.StandardValidators;
+
+import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpClientOptions;
+import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonObject;
 
 @SideEffectFree
 @Tags({ "GraphQL", "API", "NileDB", "Invoke", "Service", "niledb.com" })
@@ -60,7 +71,17 @@ public class GraphQL extends AbstractProcessor {
 			.required(true)
 			.addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
 			.build();
-
+	
+	public static final PropertyDescriptor ATTRIBUTE_NAMES = new PropertyDescriptor.Builder()
+			.name("attributeNames")
+			.displayName("Attribute names")
+			.description("Attributes that must be mapped to GraphQL variables, separated by commas (i.e. username,password,age)")
+			.defaultValue("authorization")
+			.expressionLanguageSupported(false)
+			.addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
+			.required(false)
+			.build();
+	
 	public static final PropertyDescriptor RESPONSE_TARGET_ATTRIBUTE_NAME = new PropertyDescriptor.Builder()
 			.name("responseTargetAttributeName")
 			.displayName("Response target attribute name")
@@ -69,7 +90,7 @@ public class GraphQL extends AbstractProcessor {
 			.defaultValue("response")
 			.addValidator(StandardValidators.ATTRIBUTE_KEY_VALIDATOR)
 			.build();
-
+	
 	public static final Relationship SUCCESS = new Relationship.Builder().name("SUCCESS")
 			.description("Success relationship").build();
 	
@@ -78,6 +99,7 @@ public class GraphQL extends AbstractProcessor {
 		List<PropertyDescriptor> properties = new ArrayList<>();
 		properties.add(QUERY);
 		properties.add(ENDPOINT);
+		properties.add(ATTRIBUTE_NAMES);
 		properties.add(RESPONSE_TARGET_ATTRIBUTE_NAME);
 		this.properties = Collections.unmodifiableList(properties);
 		
@@ -86,31 +108,75 @@ public class GraphQL extends AbstractProcessor {
 		this.relationships = Collections.unmodifiableSet(relationships);
 	}
 	
-	@Override
+    private volatile BlockingQueue<String> messageQueue = new LinkedBlockingQueue<>(5000);
+
+    @Override
 	public void onTrigger(final ProcessContext context, final ProcessSession session) throws ProcessException {
-		
 		FlowFile flowFile = session.get();
 		
 		String query = context.getProperty("query").getValue();
 		String endpoint = context.getProperty("endpoint").getValue();
+		String attributeNames = context.getProperty("attributeNames").getValue();
 		String responseTargetAttributeName = context.getProperty("responseTargetAttributeName").getValue();
 		//String sourceAddress = context.getProperty("sourceAddress").evaluateAttributeExpressions(flowFile).getValue();
+
+		final AtomicBoolean finished = new AtomicBoolean(false);
 		
 		try {
 			if (query != null && !query.equals("")
 					&& endpoint != null && !endpoint.equals("")) {
-				System.out.println("!!!!!! Query: " + query);
-				System.out.println("!!!!!! Endpoint: " + endpoint);
 				
-				if (responseTargetAttributeName != null && !responseTargetAttributeName.equals("")) {
-					session.putAttribute(flowFile, responseTargetAttributeName, "TO-DO");
+				URL url = new URL(endpoint);
+				
+				HttpClientOptions options = new HttpClientOptions()
+						.setKeepAlive(true)
+						.setDefaultHost(url.getHost())
+						.setDefaultPort(url.getPort());
+
+				JsonObject variables = new JsonObject();
+				if (attributeNames != null
+						&& !attributeNames.equals("")) {
+					StringTokenizer attributes = new StringTokenizer(attributeNames, ",");
+					while (attributes.hasMoreTokens()) {
+						String attributeName = attributes.nextToken().trim();
+						variables.put(attributeName, flowFile.getAttribute(attributeName));
+					}
 				}
+				
+				JsonObject request = new JsonObject()
+						.put("query", query)
+						.put("variables", variables);
+				
+				Vertx.vertx().createHttpClient(options)
+					.request(HttpMethod.POST, url.getPath(), response -> {
+						response.exceptionHandler(e -> {
+							e.printStackTrace();
+							finished.set(true);
+						});
+						response.bodyHandler(buffer -> {
+							if (responseTargetAttributeName != null
+									&& !responseTargetAttributeName.equals("")) {
+								session.putAttribute(flowFile, responseTargetAttributeName, buffer.toString());
+							}
+							finished.set(true);
+						});
+					})
+					.exceptionHandler(e -> {
+						e.printStackTrace();
+						finished.set(true);
+					})
+					.end(request.encode());
 			}
+			
+			while (!finished.get()) {
+				messageQueue.poll(10, TimeUnit.MILLISECONDS);
+				context.yield();
+			}
+			session.transfer(flowFile, SUCCESS);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		session.transfer(flowFile, SUCCESS);
 	}
 	
 	@Override
