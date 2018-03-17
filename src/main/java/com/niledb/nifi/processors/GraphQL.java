@@ -15,7 +15,6 @@
  */
 package com.niledb.nifi.processors;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -29,6 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.flowfile.FlowFile;
+import org.apache.nifi.logging.ComponentLog;
 import org.apache.nifi.processor.AbstractProcessor;
 import org.apache.nifi.processor.ProcessContext;
 import org.apache.nifi.processor.ProcessSession;
@@ -41,7 +41,9 @@ import org.apache.nifi.processor.exception.ProcessException;
 import org.apache.nifi.processor.util.StandardValidators;
 
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpClientOptions;
+import io.vertx.core.http.HttpClientRequest;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 
@@ -52,6 +54,8 @@ public class GraphQL extends AbstractProcessor {
 	
 	private List<PropertyDescriptor> properties;
 	private Set<Relationship> relationships;
+
+	private HttpClient httpClient = null;
 	
 	public static final PropertyDescriptor QUERY = new PropertyDescriptor.Builder()
 			.name("query")
@@ -93,7 +97,7 @@ public class GraphQL extends AbstractProcessor {
 	
 	public static final Relationship SUCCESS = new Relationship.Builder().name("SUCCESS")
 			.description("Success relationship").build();
-	
+
 	@Override
 	public void init(final ProcessorInitializationContext context) {
 		List<PropertyDescriptor> properties = new ArrayList<>();
@@ -106,33 +110,36 @@ public class GraphQL extends AbstractProcessor {
 		Set<Relationship> relationships = new HashSet<>();
 		relationships.add(SUCCESS);
 		this.relationships = Collections.unmodifiableSet(relationships);
+
+		HttpClientOptions options = new HttpClientOptions()
+				.setTrustAll(true)
+				.setKeepAlive(true)
+				.setVerifyHost(false);
+		
+		httpClient = Vertx.vertx().createHttpClient(options);
 	}
 	
     private volatile BlockingQueue<String> messageQueue = new LinkedBlockingQueue<>(5000);
-
+    
     @Override
 	public void onTrigger(final ProcessContext context, final ProcessSession session) throws ProcessException {
-		FlowFile flowFile = session.get();
-		
+    	ComponentLog log = getLogger();
+    	
+    	FlowFile flowFile = session.get();
+    	
 		String query = context.getProperty("query").getValue();
 		String endpoint = context.getProperty("endpoint").getValue();
 		String attributeNames = context.getProperty("attributeNames").getValue();
 		String responseTargetAttributeName = context.getProperty("responseTargetAttributeName").getValue();
-		//String sourceAddress = context.getProperty("sourceAddress").evaluateAttributeExpressions(flowFile).getValue();
-
+		
 		final AtomicBoolean finished = new AtomicBoolean(false);
+		
+		boolean flowFileTransferredOrRemoved = false;
 		
 		try {
 			if (query != null && !query.equals("")
 					&& endpoint != null && !endpoint.equals("")) {
 				
-				URL url = new URL(endpoint);
-				
-				HttpClientOptions options = new HttpClientOptions()
-						.setKeepAlive(true)
-						.setDefaultHost(url.getHost())
-						.setDefaultPort(url.getPort());
-
 				JsonObject variables = new JsonObject();
 				if (attributeNames != null
 						&& !attributeNames.equals("")) {
@@ -147,9 +154,9 @@ public class GraphQL extends AbstractProcessor {
 						.put("query", query)
 						.put("variables", variables);
 				
-				Vertx.vertx().createHttpClient(options)
-					.request(HttpMethod.POST, url.getPath(), response -> {
+					httpClient.requestAbs(HttpMethod.POST, endpoint, response -> {
 						response.exceptionHandler(e -> {
+							log.info(e.getMessage());
 							e.printStackTrace();
 							finished.set(true);
 						});
@@ -162,6 +169,7 @@ public class GraphQL extends AbstractProcessor {
 						});
 					})
 					.exceptionHandler(e -> {
+						log.info(e.getMessage());
 						e.printStackTrace();
 						finished.set(true);
 					})
@@ -172,10 +180,18 @@ public class GraphQL extends AbstractProcessor {
 				messageQueue.poll(10, TimeUnit.MILLISECONDS);
 				context.yield();
 			}
+
 			session.transfer(flowFile, SUCCESS);
+			flowFileTransferredOrRemoved = true;
 		}
 		catch (Exception e) {
+			log.info(e.getMessage());
 			e.printStackTrace();
+		}
+		finally {
+			if (!flowFileTransferredOrRemoved) {
+				session.remove(flowFile);
+			}
 		}
 	}
 	
