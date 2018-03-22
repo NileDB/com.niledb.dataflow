@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <template encoding-version="1.2">
     <description></description>
-    <groupId>4989d37b-0162-1000-baf6-6d642030774e</groupId>
-    <name>Customers create</name>
+    <groupId>4defc4b1-0162-1000-4c2c-21c34fed25f3</groupId>
+    <name>Customers Create via MQTT</name>
     <snippet>
         <connections>
-            <id>80fee5c9-9624-3371-0000-000000000000</id>
-            <parentGroupId>8e913286-de0d-357c-0000-000000000000</parentGroupId>
+            <id>bc43000c-d9c8-3547-0000-000000000000</id>
+            <parentGroupId>c69ecd6b-bb84-3827-0000-000000000000</parentGroupId>
+            <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+            <destination>
+                <groupId>c69ecd6b-bb84-3827-0000-000000000000</groupId>
+                <id>00015586-4f12-3c94-0000-000000000000</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>success</selectedRelationships>
+            <source>
+                <groupId>c69ecd6b-bb84-3827-0000-000000000000</groupId>
+                <id>ab84daa6-46e9-3b70-0000-000000000000</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>d27df0f4-07ad-33b0-0000-000000000000</id>
+            <parentGroupId>c69ecd6b-bb84-3827-0000-000000000000</parentGroupId>
             <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
             <backPressureObjectThreshold>0</backPressureObjectThreshold>
             <destination>
-                <groupId>8e913286-de0d-357c-0000-000000000000</groupId>
-                <id>86442ba2-a68a-3728-0000-000000000000</id>
+                <groupId>c69ecd6b-bb84-3827-0000-000000000000</groupId>
+                <id>65ca1ade-5483-3fbd-0000-000000000000</id>
                 <type>PROCESSOR</type>
             </destination>
             <flowFileExpiration>0 sec</flowFileExpiration>
@@ -19,41 +40,20 @@
             <name></name>
             <selectedRelationships>Response</selectedRelationships>
             <source>
-                <groupId>8e913286-de0d-357c-0000-000000000000</groupId>
-                <id>d82aba9a-c009-31d5-0000-000000000000</id>
+                <groupId>c69ecd6b-bb84-3827-0000-000000000000</groupId>
+                <id>2ddba93e-0fdd-3901-0000-000000000000</id>
                 <type>PROCESSOR</type>
             </source>
             <zIndex>0</zIndex>
         </connections>
         <connections>
-            <id>c092bf0e-3bd1-332e-0000-000000000000</id>
-            <parentGroupId>8e913286-de0d-357c-0000-000000000000</parentGroupId>
-            <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
-            <backPressureObjectThreshold>10000</backPressureObjectThreshold>
-            <destination>
-                <groupId>8e913286-de0d-357c-0000-000000000000</groupId>
-                <id>d5c519bc-7d37-385b-0000-000000000000</id>
-                <type>PROCESSOR</type>
-            </destination>
-            <flowFileExpiration>0 sec</flowFileExpiration>
-            <labelIndex>1</labelIndex>
-            <name></name>
-            <selectedRelationships>matched</selectedRelationships>
-            <source>
-                <groupId>8e913286-de0d-357c-0000-000000000000</groupId>
-                <id>4e95c917-23d2-3d55-0000-000000000000</id>
-                <type>PROCESSOR</type>
-            </source>
-            <zIndex>0</zIndex>
-        </connections>
-        <connections>
-            <id>626f3c2c-b2e0-34c9-0000-000000000000</id>
-            <parentGroupId>8e913286-de0d-357c-0000-000000000000</parentGroupId>
+            <id>23c4c402-ad2f-37b2-0000-000000000000</id>
+            <parentGroupId>c69ecd6b-bb84-3827-0000-000000000000</parentGroupId>
             <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
             <backPressureObjectThreshold>0</backPressureObjectThreshold>
             <destination>
-                <groupId>8e913286-de0d-357c-0000-000000000000</groupId>
-                <id>4e95c917-23d2-3d55-0000-000000000000</id>
+                <groupId>c69ecd6b-bb84-3827-0000-000000000000</groupId>
+                <id>1a245f06-bf79-3053-0000-000000000000</id>
                 <type>PROCESSOR</type>
             </destination>
             <flowFileExpiration>0 sec</flowFileExpiration>
@@ -61,18 +61,39 @@
             <name></name>
             <selectedRelationships>split</selectedRelationships>
             <source>
-                <groupId>8e913286-de0d-357c-0000-000000000000</groupId>
-                <id>86442ba2-a68a-3728-0000-000000000000</id>
+                <groupId>c69ecd6b-bb84-3827-0000-000000000000</groupId>
+                <id>65ca1ade-5483-3fbd-0000-000000000000</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>251dbc5e-667b-3916-0000-000000000000</id>
+            <parentGroupId>c69ecd6b-bb84-3827-0000-000000000000</parentGroupId>
+            <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+            <destination>
+                <groupId>c69ecd6b-bb84-3827-0000-000000000000</groupId>
+                <id>ab84daa6-46e9-3b70-0000-000000000000</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>matched</selectedRelationships>
+            <source>
+                <groupId>c69ecd6b-bb84-3827-0000-000000000000</groupId>
+                <id>1a245f06-bf79-3053-0000-000000000000</id>
                 <type>PROCESSOR</type>
             </source>
             <zIndex>0</zIndex>
         </connections>
         <processors>
-            <id>86442ba2-a68a-3728-0000-000000000000</id>
-            <parentGroupId>8e913286-de0d-357c-0000-000000000000</parentGroupId>
+            <id>ab84daa6-46e9-3b70-0000-000000000000</id>
+            <parentGroupId>c69ecd6b-bb84-3827-0000-000000000000</parentGroupId>
             <position>
-                <x>763.2165216360476</x>
-                <y>2.574348390127426</y>
+                <x>3.0</x>
+                <y>251.0</y>
             </position>
             <bundle>
                 <artifact>nifi-standard-nar</artifact>
@@ -85,9 +106,308 @@
                 <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
                 <descriptors>
                     <entry>
-                        <key>JsonPath Expression</key>
+                        <key>Attributes List</key>
                         <value>
-                            <name>JsonPath Expression</name>
+                            <name>Attributes List</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>attributes-to-json-regex</key>
+                        <value>
+                            <name>attributes-to-json-regex</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Destination</key>
+                        <value>
+                            <name>Destination</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Include Core Attributes</key>
+                        <value>
+                            <name>Include Core Attributes</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Null Value</key>
+                        <value>
+                            <name>Null Value</name>
+                        </value>
+                    </entry>
+                </descriptors>
+                <executionNode>ALL</executionNode>
+                <lossTolerant>false</lossTolerant>
+                <penaltyDuration>30 sec</penaltyDuration>
+                <properties>
+                    <entry>
+                        <key>Attributes List</key>
+                        <value>email,firstName,lastName</value>
+                    </entry>
+                    <entry>
+                        <key>attributes-to-json-regex</key>
+                    </entry>
+                    <entry>
+                        <key>Destination</key>
+                        <value>flowfile-content</value>
+                    </entry>
+                    <entry>
+                        <key>Include Core Attributes</key>
+                        <value>true</value>
+                    </entry>
+                    <entry>
+                        <key>Null Value</key>
+                        <value>false</value>
+                    </entry>
+                </properties>
+                <runDurationMillis>0</runDurationMillis>
+                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                <yieldDuration>1 sec</yieldDuration>
+            </config>
+            <name>AttributesToJSON</name>
+            <relationships>
+                <autoTerminate>true</autoTerminate>
+                <name>failure</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <name>success</name>
+            </relationships>
+            <state>STOPPED</state>
+            <style/>
+            <type>org.apache.nifi.processors.standard.AttributesToJSON</type>
+        </processors>
+        <processors>
+            <id>00015586-4f12-3c94-0000-000000000000</id>
+            <parentGroupId>c69ecd6b-bb84-3827-0000-000000000000</parentGroupId>
+            <position>
+                <x>0.0</x>
+                <y>531.9999999999999</y>
+            </position>
+            <bundle>
+                <artifact>nifi-mqtt-nar</artifact>
+                <group>org.apache.nifi</group>
+                <version>1.5.0</version>
+            </bundle>
+            <config>
+                <bulletinLevel>WARN</bulletinLevel>
+                <comments></comments>
+                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                <descriptors>
+                    <entry>
+                        <key>Broker URI</key>
+                        <value>
+                            <name>Broker URI</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Client ID</key>
+                        <value>
+                            <name>Client ID</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Username</key>
+                        <value>
+                            <name>Username</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Password</key>
+                        <value>
+                            <name>Password</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>SSL Context Service</key>
+                        <value>
+                            <identifiesControllerService>org.apache.nifi.ssl.SSLContextService</identifiesControllerService>
+                            <name>SSL Context Service</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Last Will Topic</key>
+                        <value>
+                            <name>Last Will Topic</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Last Will Message</key>
+                        <value>
+                            <name>Last Will Message</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Last Will Retain</key>
+                        <value>
+                            <name>Last Will Retain</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Last Will QoS Level</key>
+                        <value>
+                            <name>Last Will QoS Level</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Session state</key>
+                        <value>
+                            <name>Session state</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>MQTT Specification Version</key>
+                        <value>
+                            <name>MQTT Specification Version</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Connection Timeout (seconds)</key>
+                        <value>
+                            <name>Connection Timeout (seconds)</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Keep Alive Interval (seconds)</key>
+                        <value>
+                            <name>Keep Alive Interval (seconds)</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Topic</key>
+                        <value>
+                            <name>Topic</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Quality of Service(QoS)</key>
+                        <value>
+                            <name>Quality of Service(QoS)</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Retain Message</key>
+                        <value>
+                            <name>Retain Message</name>
+                        </value>
+                    </entry>
+                </descriptors>
+                <executionNode>ALL</executionNode>
+                <lossTolerant>false</lossTolerant>
+                <penaltyDuration>30 sec</penaltyDuration>
+                <properties>
+                    <entry>
+                        <key>Broker URI</key>
+                        <value>tcp://core:1883</value>
+                    </entry>
+                    <entry>
+                        <key>Client ID</key>
+                        <value>SEUR</value>
+                    </entry>
+                    <entry>
+                        <key>Username</key>
+                        <value>postgres</value>
+                    </entry>
+                    <entry>
+                        <key>Password</key>
+                        <value>postgres</value>
+                    </entry>
+                    <entry>
+                        <key>SSL Context Service</key>
+                    </entry>
+                    <entry>
+                        <key>Last Will Topic</key>
+                    </entry>
+                    <entry>
+                        <key>Last Will Message</key>
+                    </entry>
+                    <entry>
+                        <key>Last Will Retain</key>
+                    </entry>
+                    <entry>
+                        <key>Last Will QoS Level</key>
+                    </entry>
+                    <entry>
+                        <key>Session state</key>
+                        <value>true</value>
+                    </entry>
+                    <entry>
+                        <key>MQTT Specification Version</key>
+                        <value>0</value>
+                    </entry>
+                    <entry>
+                        <key>Connection Timeout (seconds)</key>
+                        <value>30</value>
+                    </entry>
+                    <entry>
+                        <key>Keep Alive Interval (seconds)</key>
+                        <value>60</value>
+                    </entry>
+                    <entry>
+                        <key>Topic</key>
+                        <value>customer</value>
+                    </entry>
+                    <entry>
+                        <key>Quality of Service(QoS)</key>
+                        <value>0</value>
+                    </entry>
+                    <entry>
+                        <key>Retain Message</key>
+                        <value>true</value>
+                    </entry>
+                </properties>
+                <runDurationMillis>0</runDurationMillis>
+                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                <yieldDuration>1 sec</yieldDuration>
+            </config>
+            <name>PublishMQTT</name>
+            <relationships>
+                <autoTerminate>true</autoTerminate>
+                <name>failure</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>true</autoTerminate>
+                <name>success</name>
+            </relationships>
+            <state>STOPPED</state>
+            <style/>
+            <type>org.apache.nifi.processors.mqtt.PublishMQTT</type>
+        </processors>
+        <processors>
+            <id>1a245f06-bf79-3053-0000-000000000000</id>
+            <parentGroupId>c69ecd6b-bb84-3827-0000-000000000000</parentGroupId>
+            <position>
+                <x>761.71763618244</x>
+                <y>251.80315850715056</y>
+            </position>
+            <bundle>
+                <artifact>nifi-standard-nar</artifact>
+                <group>org.apache.nifi</group>
+                <version>1.5.0</version>
+            </bundle>
+            <config>
+                <bulletinLevel>WARN</bulletinLevel>
+                <comments></comments>
+                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                <descriptors>
+                    <entry>
+                        <key>Destination</key>
+                        <value>
+                            <name>Destination</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Return Type</key>
+                        <value>
+                            <name>Return Type</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>Path Not Found Behavior</key>
+                        <value>
+                            <name>Path Not Found Behavior</name>
                         </value>
                     </entry>
                     <entry>
@@ -96,137 +416,83 @@
                             <name>Null Value Representation</name>
                         </value>
                     </entry>
+                    <entry>
+                        <key>email</key>
+                        <value>
+                            <name>email</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>firstName</key>
+                        <value>
+                            <name>firstName</name>
+                        </value>
+                    </entry>
+                    <entry>
+                        <key>lastName</key>
+                        <value>
+                            <name>lastName</name>
+                        </value>
+                    </entry>
                 </descriptors>
                 <executionNode>ALL</executionNode>
                 <lossTolerant>false</lossTolerant>
                 <penaltyDuration>30 sec</penaltyDuration>
                 <properties>
                     <entry>
-                        <key>JsonPath Expression</key>
-                        <value>$.results</value>
+                        <key>Destination</key>
+                        <value>flowfile-attribute</value>
+                    </entry>
+                    <entry>
+                        <key>Return Type</key>
+                        <value>json</value>
+                    </entry>
+                    <entry>
+                        <key>Path Not Found Behavior</key>
+                        <value>ignore</value>
                     </entry>
                     <entry>
                         <key>Null Value Representation</key>
                         <value>empty string</value>
                     </entry>
+                    <entry>
+                        <key>email</key>
+                        <value>$.email</value>
+                    </entry>
+                    <entry>
+                        <key>firstName</key>
+                        <value>$.name.first</value>
+                    </entry>
+                    <entry>
+                        <key>lastName</key>
+                        <value>$.name.last</value>
+                    </entry>
                 </properties>
                 <runDurationMillis>0</runDurationMillis>
                 <schedulingPeriod>0 sec</schedulingPeriod>
                 <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
                 <yieldDuration>1 sec</yieldDuration>
             </config>
-            <name>SplitJson</name>
+            <name>EvaluateJsonPath</name>
             <relationships>
                 <autoTerminate>true</autoTerminate>
                 <name>failure</name>
             </relationships>
             <relationships>
-                <autoTerminate>true</autoTerminate>
-                <name>original</name>
-            </relationships>
-            <relationships>
                 <autoTerminate>false</autoTerminate>
-                <name>split</name>
+                <name>matched</name>
             </relationships>
-            <state>STOPPED</state>
-            <style/>
-            <type>org.apache.nifi.processors.standard.SplitJson</type>
-        </processors>
-        <processors>
-            <id>d5c519bc-7d37-385b-0000-000000000000</id>
-            <parentGroupId>8e913286-de0d-357c-0000-000000000000</parentGroupId>
-            <position>
-                <x>0.2002602543265084</x>
-                <y>236.39767430727306</y>
-            </position>
-            <bundle>
-                <artifact>com.niledb.nifi</artifact>
-                <group>com.niledb.nifi</group>
-                <version>0.8.0</version>
-            </bundle>
-            <config>
-                <bulletinLevel>WARN</bulletinLevel>
-                <comments></comments>
-                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
-                <descriptors>
-                    <entry>
-                        <key>query</key>
-                        <value>
-                            <name>query</name>
-                        </value>
-                    </entry>
-                    <entry>
-                        <key>endpoint</key>
-                        <value>
-                            <name>endpoint</name>
-                        </value>
-                    </entry>
-                    <entry>
-                        <key>attributeNames</key>
-                        <value>
-                            <name>attributeNames</name>
-                        </value>
-                    </entry>
-                    <entry>
-                        <key>responseTargetAttributeName</key>
-                        <value>
-                            <name>responseTargetAttributeName</name>
-                        </value>
-                    </entry>
-                </descriptors>
-                <executionNode>ALL</executionNode>
-                <lossTolerant>false</lossTolerant>
-                <penaltyDuration>30 sec</penaltyDuration>
-                <properties>
-                    <entry>
-                        <key>query</key>
-                        <value>mutation customerCreate(
-  $firstName: String!
-  $lastName: String!
-  $email: String!
-) {
-  customerCreate(
-    entity: {
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-    }
-  ) {
-    id
-  }
-}
-</value>
-                    </entry>
-                    <entry>
-                        <key>endpoint</key>
-                        <value>http://niledb/graphql</value>
-                    </entry>
-                    <entry>
-                        <key>attributeNames</key>
-                        <value>email,firstName,lastName</value>
-                    </entry>
-                    <entry>
-                        <key>responseTargetAttributeName</key>
-                        <value>response</value>
-                    </entry>
-                </properties>
-                <runDurationMillis>0</runDurationMillis>
-                <schedulingPeriod>0 sec</schedulingPeriod>
-                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
-                <yieldDuration>1 sec</yieldDuration>
-            </config>
-            <name>GraphQL</name>
             <relationships>
                 <autoTerminate>true</autoTerminate>
-                <name>SUCCESS</name>
+                <name>unmatched</name>
             </relationships>
             <state>STOPPED</state>
             <style/>
-            <type>com.niledb.nifi.processors.GraphQL</type>
+            <type>org.apache.nifi.processors.standard.EvaluateJsonPath</type>
         </processors>
         <processors>
-            <id>d82aba9a-c009-31d5-0000-000000000000</id>
-            <parentGroupId>8e913286-de0d-357c-0000-000000000000</parentGroupId>
+            <id>2ddba93e-0fdd-3901-0000-000000000000</id>
+            <parentGroupId>c69ecd6b-bb84-3827-0000-000000000000</parentGroupId>
             <position>
                 <x>0.0</x>
                 <y>0.0</y>
@@ -509,11 +775,11 @@
             <type>org.apache.nifi.processors.standard.InvokeHTTP</type>
         </processors>
         <processors>
-            <id>4e95c917-23d2-3d55-0000-000000000000</id>
-            <parentGroupId>8e913286-de0d-357c-0000-000000000000</parentGroupId>
+            <id>65ca1ade-5483-3fbd-0000-000000000000</id>
+            <parentGroupId>c69ecd6b-bb84-3827-0000-000000000000</parentGroupId>
             <position>
-                <x>764.7176361824398</x>
-                <y>235.80315850715056</y>
+                <x>763.2165216360477</x>
+                <y>2.5743483901273976</y>
             </position>
             <bundle>
                 <artifact>nifi-standard-nar</artifact>
@@ -526,21 +792,9 @@
                 <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
                 <descriptors>
                     <entry>
-                        <key>Destination</key>
+                        <key>JsonPath Expression</key>
                         <value>
-                            <name>Destination</name>
-                        </value>
-                    </entry>
-                    <entry>
-                        <key>Return Type</key>
-                        <value>
-                            <name>Return Type</name>
-                        </value>
-                    </entry>
-                    <entry>
-                        <key>Path Not Found Behavior</key>
-                        <value>
-                            <name>Path Not Found Behavior</name>
+                            <name>JsonPath Expression</name>
                         </value>
                     </entry>
                     <entry>
@@ -549,56 +803,18 @@
                             <name>Null Value Representation</name>
                         </value>
                     </entry>
-                    <entry>
-                        <key>email</key>
-                        <value>
-                            <name>email</name>
-                        </value>
-                    </entry>
-                    <entry>
-                        <key>firstName</key>
-                        <value>
-                            <name>firstName</name>
-                        </value>
-                    </entry>
-                    <entry>
-                        <key>lastName</key>
-                        <value>
-                            <name>lastName</name>
-                        </value>
-                    </entry>
                 </descriptors>
                 <executionNode>ALL</executionNode>
                 <lossTolerant>false</lossTolerant>
                 <penaltyDuration>30 sec</penaltyDuration>
                 <properties>
                     <entry>
-                        <key>Destination</key>
-                        <value>flowfile-attribute</value>
-                    </entry>
-                    <entry>
-                        <key>Return Type</key>
-                        <value>json</value>
-                    </entry>
-                    <entry>
-                        <key>Path Not Found Behavior</key>
-                        <value>ignore</value>
+                        <key>JsonPath Expression</key>
+                        <value>$.results</value>
                     </entry>
                     <entry>
                         <key>Null Value Representation</key>
                         <value>empty string</value>
-                    </entry>
-                    <entry>
-                        <key>email</key>
-                        <value>$.email</value>
-                    </entry>
-                    <entry>
-                        <key>firstName</key>
-                        <value>$.name.first</value>
-                    </entry>
-                    <entry>
-                        <key>lastName</key>
-                        <value>$.name.last</value>
                     </entry>
                 </properties>
                 <runDurationMillis>0</runDurationMillis>
@@ -606,23 +822,23 @@
                 <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
                 <yieldDuration>1 sec</yieldDuration>
             </config>
-            <name>EvaluateJsonPath</name>
+            <name>SplitJson</name>
             <relationships>
                 <autoTerminate>true</autoTerminate>
                 <name>failure</name>
             </relationships>
             <relationships>
-                <autoTerminate>false</autoTerminate>
-                <name>matched</name>
+                <autoTerminate>true</autoTerminate>
+                <name>original</name>
             </relationships>
             <relationships>
-                <autoTerminate>true</autoTerminate>
-                <name>unmatched</name>
+                <autoTerminate>false</autoTerminate>
+                <name>split</name>
             </relationships>
             <state>STOPPED</state>
             <style/>
-            <type>org.apache.nifi.processors.standard.EvaluateJsonPath</type>
+            <type>org.apache.nifi.processors.standard.SplitJson</type>
         </processors>
     </snippet>
-    <timestamp>03/21/2018 17:27:33 UTC</timestamp>
+    <timestamp>03/22/2018 13:50:42 UTC</timestamp>
 </template>
