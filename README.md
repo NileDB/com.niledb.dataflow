@@ -6,6 +6,8 @@ Welcome to [NileDB](https://niledb.com) Nifi, a series of NiFi processors that f
 
 Feel free to give us your feedback in order to improve the available features. Thanks.
 
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Get%20NileDB,%20the%20open-source%20Data%20Backend!&url=https://niledb.com)
+
 ### Build
 
 In order to build NileDB Nifi, you need [Java](https://www.java.com/en/download/) to be installed previously.
