@@ -69,7 +69,7 @@ public class GraphQL extends AbstractProcessor {
 			.name("endpoint")
 			.displayName("GraphQL endpoint")
 			.description("GraphQL service endpoint (i.e. https://niledb.com/graphql.")
-			.defaultValue("http://niledb/graphql")
+			.defaultValue("http://core/graphql")
 			.expressionLanguageSupported(false)
 			.required(true)
 			.addValidator(StandardValidators.NON_EMPTY_VALIDATOR)

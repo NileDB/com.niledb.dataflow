@@ -13,7 +13,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'de.fanero.gradle.plugin.nar'
 
-def nifiVersion = '1.5.0'
+def nifiVersion = '1.6.0'
 def vertxVersion = '3.5.1'
 
 repositories {
