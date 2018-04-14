@@ -1,1 +1,2 @@
-com.niledb.nifi.processors.GraphQL
+com.niledb.dataflow.processors.GraphQL
+com.niledb.dataflow.processors.LogicalDecoding

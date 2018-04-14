@@ -23,10 +23,11 @@ repositories {
 dependencies {
 	compile "io.vertx:vertx-core:$vertxVersion"
 	compile "org.apache.nifi:nifi-processor-utils:$nifiVersion"
+	compile "org.postgresql:postgresql:42.2.1"
 	
 	testCompile "org.apache.nifi:nifi-mock:$nifiVersion"
     testCompile "junit:junit:4.12"
 }
 
-group = 'com.niledb.nifi'
+group = 'com.niledb.dataflow'
 version = '0.8.0'

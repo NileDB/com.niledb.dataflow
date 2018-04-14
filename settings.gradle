@@ -15,4 +15,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'com.niledb.nifi'
+rootProject.name = 'com.niledb.dataflow'
