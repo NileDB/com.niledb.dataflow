@@ -21,12 +21,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.nifi.components.PropertyDescriptor;
+import org.apache.nifi.expression.ExpressionLanguageScope;
 import org.apache.nifi.flowfile.FlowFile;
 import org.apache.nifi.logging.ComponentLog;
 import org.apache.nifi.processor.AbstractProcessor;
@@ -60,7 +58,7 @@ public class GraphQL extends AbstractProcessor {
 			.name("query")
 			.displayName("GraphQL query")
 			.description("GraphQL query. It can be copied from GraphiQL or GraphQL Playground editors.")
-			.expressionLanguageSupported(false)
+			.expressionLanguageSupported(ExpressionLanguageScope.FLOWFILE_ATTRIBUTES)
 			.required(true)
 			.addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
 			.build();
@@ -70,7 +68,7 @@ public class GraphQL extends AbstractProcessor {
 			.displayName("GraphQL endpoint")
 			.description("GraphQL service endpoint (i.e. https://niledb.com/graphql.")
 			.defaultValue("http://core/graphql")
-			.expressionLanguageSupported(false)
+			.expressionLanguageSupported(ExpressionLanguageScope.NONE)
 			.required(true)
 			.addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
 			.build();
@@ -79,9 +77,7 @@ public class GraphQL extends AbstractProcessor {
 			.name("attributeNames")
 			.displayName("Attribute names")
 			.description("Attributes that must be mapped to GraphQL variables, separated by commas (i.e. username,password,age)")
-			.defaultValue("authorization")
-			.expressionLanguageSupported(false)
-			.addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
+			.expressionLanguageSupported(ExpressionLanguageScope.NONE)
 			.required(false)
 			.build();
 	
@@ -118,15 +114,13 @@ public class GraphQL extends AbstractProcessor {
 		httpClient = Vertx.vertx().createHttpClient(options);
 	}
 	
-    private volatile BlockingQueue<String> messageQueue = new LinkedBlockingQueue<>(5000);
-    
     @Override
 	public void onTrigger(final ProcessContext context, final ProcessSession session) throws ProcessException {
     	ComponentLog log = getLogger();
     	
     	FlowFile flowFile = session.get();
     	
-		String query = context.getProperty("query").getValue();
+		String query = context.getProperty("query").evaluateAttributeExpressions(flowFile).getValue();
 		String endpoint = context.getProperty("endpoint").getValue();
 		String attributeNames = context.getProperty("attributeNames").getValue();
 		String responseTargetAttributeName = context.getProperty("responseTargetAttributeName").getValue();
@@ -176,7 +170,7 @@ public class GraphQL extends AbstractProcessor {
 			}
 			
 			while (!finished.get()) {
-				messageQueue.poll(10, TimeUnit.MILLISECONDS);
+				//messageQueue.poll(10, TimeUnit.MILLISECONDS);
 				context.yield();
 			}
 

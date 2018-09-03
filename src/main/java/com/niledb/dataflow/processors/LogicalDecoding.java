@@ -31,6 +31,7 @@ import java.util.Set;
 
 import org.apache.nifi.components.AllowableValue;
 import org.apache.nifi.components.PropertyDescriptor;
+import org.apache.nifi.expression.ExpressionLanguageScope;
 import org.apache.nifi.flowfile.FlowFile;
 import org.apache.nifi.logging.ComponentLog;
 import org.apache.nifi.processor.AbstractProcessor;
@@ -77,7 +78,7 @@ public class LogicalDecoding extends AbstractProcessor {
 			.displayName("Database name")
 			.description("The name of the database.")
 			.defaultValue("niledb")
-			.expressionLanguageSupported(false)
+			.expressionLanguageSupported(ExpressionLanguageScope.NONE)
 			.required(true)
 			.addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
 			.build();
@@ -87,7 +88,7 @@ public class LogicalDecoding extends AbstractProcessor {
 			.displayName("Host name")
 			.description("The name/address of the host.")
 			.defaultValue("db")
-			.expressionLanguageSupported(false)
+			.expressionLanguageSupported(ExpressionLanguageScope.NONE)
 			.required(true)
 			.addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
 			.build();
@@ -97,7 +98,7 @@ public class LogicalDecoding extends AbstractProcessor {
 			.displayName("Port")
 			.description("The port number where PostgreSQL server is listening.")
 			.defaultValue("5432")
-			.expressionLanguageSupported(false)
+			.expressionLanguageSupported(ExpressionLanguageScope.NONE)
 			.required(true)
 			.addValidator(StandardValidators.PORT_VALIDATOR)
 			.build();
@@ -107,7 +108,7 @@ public class LogicalDecoding extends AbstractProcessor {
 			.displayName("Replication slot")
 			.description("The replication slot to subscribe to.")
 			.defaultValue("slot")
-			.expressionLanguageSupported(false)
+			.expressionLanguageSupported(ExpressionLanguageScope.NONE)
 			.required(true)
 			.addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
 			.build();
@@ -117,7 +118,7 @@ public class LogicalDecoding extends AbstractProcessor {
 			.displayName("Username")
 			.description("The username to be connected as.")
 			.defaultValue("postgres")
-			.expressionLanguageSupported(false)
+			.expressionLanguageSupported(ExpressionLanguageScope.NONE)
 			.required(true)
 			.addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
 			.build();
@@ -127,7 +128,7 @@ public class LogicalDecoding extends AbstractProcessor {
 			.displayName("Password")
 			.description("The password to be used.")
 			.defaultValue("postgres")
-			.expressionLanguageSupported(false)
+			.expressionLanguageSupported(ExpressionLanguageScope.NONE)
 			.required(true)
 			.addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
 			.build();
@@ -136,7 +137,7 @@ public class LogicalDecoding extends AbstractProcessor {
 			.name("lsnFileName")
 			.displayName("LSN (Log Sequence Number) file name")
 			.description("The file where the last LSN is going to be stored.")
-			.expressionLanguageSupported(false)
+			.expressionLanguageSupported(ExpressionLanguageScope.NONE)
 			.required(false)
 			.addValidator(StandardValidators.NON_BLANK_VALIDATOR)
 			.build();
@@ -146,7 +147,7 @@ public class LogicalDecoding extends AbstractProcessor {
 			.displayName("SSL")
 			.description("It indicates if the connection uses SSL.")
 			.defaultValue("false")
-			.expressionLanguageSupported(false)
+			.expressionLanguageSupported(ExpressionLanguageScope.NONE)
 			.required(true)
 			.addValidator(StandardValidators.BOOLEAN_VALIDATOR)
 			.build();
@@ -156,7 +157,7 @@ public class LogicalDecoding extends AbstractProcessor {
 			.displayName("SSL mode")
 			.description("The SSL mode.")
 			.defaultValue(SSL_MODE_VERIFY_CA.getValue())
-			.expressionLanguageSupported(false)
+			.expressionLanguageSupported(ExpressionLanguageScope.NONE)
 			.required(true)
 			.allowableValues(SSL_MODE_DISABLE, SSL_MODE_ALLOW, SSL_MODE_PREFER, SSL_MODE_REQUIRE, SSL_MODE_VERIFY_CA, SSL_MODE_VERIFY_FULL)
 			.build();
@@ -166,7 +167,7 @@ public class LogicalDecoding extends AbstractProcessor {
 			.displayName("SSL root certificate")
 			.description("The SSL root certificate path")
 			.defaultValue("misc/ssl/BaltimoreCyberTrustRoot.crt.pem")
-			.expressionLanguageSupported(false)
+			.expressionLanguageSupported(ExpressionLanguageScope.NONE)
 			.required(true)
 			.addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
 			.build();

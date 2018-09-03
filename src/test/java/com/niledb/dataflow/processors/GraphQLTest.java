@@ -39,14 +39,14 @@ public class GraphQLTest {
 		// Add ControllerServices
 		
 		// Add properties (configure processor)
-		runner.setProperty(GraphQL.ENDPOINT, "http://localhost:8080/graphql");
-		runner.setProperty(GraphQL.QUERY, "query {addressList {addressLine1}}");
-		runner.setProperty(GraphQL.ATTRIBUTE_NAMES, "authorization,guay");
+		runner.setProperty(GraphQL.ENDPOINT, "http://localhost/graphql");
+		runner.setProperty(GraphQL.QUERY, "{ Souk_ItemList(where: { brand: {EQ: \"${brand}\"} }) { brand name }}");
+		//runner.setProperty(GraphQL.ATTRIBUTE_NAMES, "name,surname");
 		runner.setProperty(GraphQL.RESPONSE_TARGET_ATTRIBUTE_NAME, "result");
 		
 		// Enqueue FlowFiles
 		HashMap<String, String> attributes = new HashMap<String, String>();
-		attributes.put("authorization", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InBvc3RncmVzIn0.NueDcaT-wX6DuO1t_91-UeqX-xXZoHpXXkC1VGG_TlU");
+		attributes.put("brand", "Gucci");
 		runner.enqueue("{}", attributes);
 		
 		// Run the Processor

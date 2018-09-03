@@ -13,7 +13,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'de.fanero.gradle.plugin.nar'
 
-def nifiVersion = '1.6.0'
+def nifiVersion = '1.7.1'
 def vertxVersion = '3.5.1'
 
 repositories {
@@ -23,11 +23,11 @@ repositories {
 dependencies {
 	compile "io.vertx:vertx-core:$vertxVersion"
 	compile "org.apache.nifi:nifi-processor-utils:$nifiVersion"
-	compile "org.postgresql:postgresql:42.2.1"
+	compile "org.postgresql:postgresql:42.2.5"
 	
 	testCompile "org.apache.nifi:nifi-mock:$nifiVersion"
     testCompile "junit:junit:4.12"
 }
 
 group = 'com.niledb.dataflow'
-version = '0.8.0'
+version = '0.9.0'

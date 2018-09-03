@@ -361,7 +361,7 @@
             <bundle>
                 <artifact>com.niledb.nifi</artifact>
                 <group>com.niledb.nifi</group>
-                <version>0.8.0</version>
+                <version>0.9.0</version>
             </bundle>
             <config>
                 <bulletinLevel>WARN</bulletinLevel>
