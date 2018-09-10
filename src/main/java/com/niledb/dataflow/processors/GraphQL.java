@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.expression.ExpressionLanguageScope;
@@ -32,16 +31,18 @@ import org.apache.nifi.processor.ProcessContext;
 import org.apache.nifi.processor.ProcessSession;
 import org.apache.nifi.processor.ProcessorInitializationContext;
 import org.apache.nifi.processor.Relationship;
+import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.nifi.annotation.behavior.SideEffectFree;
 import org.apache.nifi.annotation.documentation.CapabilityDescription;
 import org.apache.nifi.annotation.documentation.Tags;
 import org.apache.nifi.processor.exception.ProcessException;
 import org.apache.nifi.processor.util.StandardValidators;
 
-import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpClient;
-import io.vertx.core.http.HttpClientOptions;
-import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 
 @SideEffectFree
@@ -52,8 +53,6 @@ public class GraphQL extends AbstractProcessor {
 	private List<PropertyDescriptor> properties;
 	private Set<Relationship> relationships;
 
-	private HttpClient httpClient = null;
-	
 	public static final PropertyDescriptor QUERY = new PropertyDescriptor.Builder()
 			.name("query")
 			.displayName("GraphQL query")
@@ -105,13 +104,6 @@ public class GraphQL extends AbstractProcessor {
 		Set<Relationship> relationships = new HashSet<>();
 		relationships.add(SUCCESS);
 		this.relationships = Collections.unmodifiableSet(relationships);
-
-		HttpClientOptions options = new HttpClientOptions()
-				.setTrustAll(true)
-				.setKeepAlive(true)
-				.setVerifyHost(false);
-		
-		httpClient = Vertx.vertx().createHttpClient(options);
 	}
 	
     @Override
@@ -125,9 +117,9 @@ public class GraphQL extends AbstractProcessor {
 		String attributeNames = context.getProperty("attributeNames").getValue();
 		String responseTargetAttributeName = context.getProperty("responseTargetAttributeName").getValue();
 		
-		final AtomicBoolean finished = new AtomicBoolean(false);
-		
 		boolean flowFileTransferredOrRemoved = false;
+		
+		CloseableHttpClient httpClient = HttpClients.createDefault();
 		
 		try {
 			if (query != null && !query.equals("")
@@ -147,33 +139,18 @@ public class GraphQL extends AbstractProcessor {
 						.put("query", query)
 						.put("variables", variables);
 				
-					httpClient.requestAbs(HttpMethod.POST, endpoint, response -> {
-						response.exceptionHandler(e -> {
-							log.info(e.getMessage());
-							e.printStackTrace();
-							finished.set(true);
-						});
-						response.bodyHandler(buffer -> {
-							if (responseTargetAttributeName != null
-									&& !responseTargetAttributeName.equals("")) {
-								session.putAttribute(flowFile, responseTargetAttributeName, buffer.toString());
-							}
-							finished.set(true);
-						});
-					})
-					.exceptionHandler(e -> {
-						log.info(e.getMessage());
-						e.printStackTrace();
-						finished.set(true);
-					})
-					.end(request.encode());
+				HttpPost httpPost = new HttpPost(endpoint);
+				httpPost.setEntity(EntityBuilder.create().setContentEncoding("application/json").setText(request.encode()).build());
+				CloseableHttpResponse response = httpClient.execute(httpPost);
+				
+				if (responseTargetAttributeName != null
+						&& !responseTargetAttributeName.equals("")) {
+					session.putAttribute(flowFile, responseTargetAttributeName, EntityUtils.toString(response.getEntity()));
+				}
+				
+				response.close();
+				httpClient.close();
 			}
-			
-			while (!finished.get()) {
-				//messageQueue.poll(10, TimeUnit.MILLISECONDS);
-				context.yield();
-			}
-
 			session.transfer(flowFile, SUCCESS);
 			flowFileTransferredOrRemoved = true;
 		}

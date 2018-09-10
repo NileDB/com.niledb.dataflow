@@ -24,6 +24,7 @@ dependencies {
 	compile "io.vertx:vertx-core:$vertxVersion"
 	compile "org.apache.nifi:nifi-processor-utils:$nifiVersion"
 	compile "org.postgresql:postgresql:42.2.5"
+	compile "org.apache.httpcomponents:httpclient:4.5.6"
 	
 	testCompile "org.apache.nifi:nifi-mock:$nifiVersion"
     testCompile "junit:junit:4.12"
