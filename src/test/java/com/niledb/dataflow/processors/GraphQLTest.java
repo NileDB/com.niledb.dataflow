@@ -43,21 +43,23 @@ public class GraphQLTest {
 		runner.setProperty(GraphQL.ENDPOINT, "http://localhost/graphql");
 		//runner.setProperty(GraphQL.ENDPOINT, "https://home.niledb.com/graphql");
 		//runner.setProperty(GraphQL.QUERY, "{ Souk_ItemList(where: { brand: {EQ: \"${brand}\"} }) { brand name }}");
-		runner.setProperty(GraphQL.QUERY, "mutation bla { Souk_ItemCreate( entity: { seller: \"Paco\" name: \"Perro\" brand: \"Hola\" }) { id }}");
+		//runner.setProperty(GraphQL.QUERY, "mutation bla { Souk_ItemCreate( entity: { seller: \"Paco\" name: \"Perro\" brand: \"Hola\" }) { id }}");
+		runner.setProperty(GraphQL.QUERY, "mutation { Products_CategoryCreate( entity: { name: \"Música\" url: \"\" }) { id }}");
+		
 		//runner.setProperty(GraphQL.ATTRIBUTE_NAMES, "name,surname");
 		runner.setProperty(GraphQL.RESPONSE_TARGET_ATTRIBUTE_NAME, "result");
 
 		long time1 = new Date().getTime();
 		
 		// Enqueue FlowFiles
-		for (int i = 0; i < 1000; i++) {
+		//for (int i = 0; i < 1000; i++) {
 			
 			HashMap<String, String> attributes = new HashMap<String, String>();
 			attributes.put("brand", "Gucci");
 			runner.enqueue("{}", attributes);
 			// Run the Processor
 			runner.run();
-		}
+		//}
 
 		long time2 = new Date().getTime();
 		System.out.println("Time: " + (time2 - time1));

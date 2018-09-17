@@ -34,6 +34,7 @@ import org.apache.nifi.processor.Relationship;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -140,7 +141,7 @@ public class GraphQL extends AbstractProcessor {
 						.put("variables", variables);
 				
 				HttpPost httpPost = new HttpPost(endpoint);
-				httpPost.setEntity(EntityBuilder.create().setContentEncoding("application/json").setText(request.encode()).build());
+				httpPost.setEntity(EntityBuilder.create().setContentEncoding("UTF-8").setContentType(ContentType.APPLICATION_JSON).setText(request.encode()).build());
 				CloseableHttpResponse response = httpClient.execute(httpPost);
 				
 				if (responseTargetAttributeName != null
